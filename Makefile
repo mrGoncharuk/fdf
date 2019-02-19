@@ -1,44 +1,66 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/02/19 15:35:14 by mhonchar          #+#    #+#              #
+#    Updated: 2019/02/19 18:32:51 by mhonchar         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = fdf
+LIB_NAME = libft.a
+SRC_DIR = src/
+OBJ_DIR = obj/
+INC_DIR = includes/
+LIB_DIR = libft/
 
-HEADER = fdf.h
+LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 
-SRCS = 	main.c \
-		draw_net.c \
-		draw_line.c \
-		put_to_img.c \
-		read_chords.c \
-		get_next_line.c \
-		rotator.c
-
-
-OBJS = $(SRCS:.c=.o)
-LIBFT = ./libft/libft.a
+SRC_FILES =		main.c
 
 
-FLAGS = -Wall -Werror -Wextra
+HEADERS = $(INC_DIR)fdf.h $(LIB_DIR)libft.h
+SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
+OBJ = $(addprefix $(SRC_DIR), $(SRC_FILES:.c=.o))
 
-.NOTPARALLEL: all clean fclean re
-
-.PHONY: all clean fclean re
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+INC = -I $(INC_DIR) -I $(LIB_DIR)
+FRAMEWORKS = -lmlx -framework OpenGL -framework Appkit
+C_RED = \033[31m
+C_GREEN = \033[32m
+C_MAGENTA = \033[35m
+C_NONE = \033[0m
 
 all: $(NAME)
 
-start: all
-	./fdf
+$(NAME): $(HEADERS) $(OBJ_DIR) $(OBJ)
+	@make -C $(LIB_DIR)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(FRAMEWORKS) -o $(NAME)
+	@printf "$(C_MAGENTA)FDF:$(C_NONE) %-25s$(C_GREEN)[done]$(C_NONE)\n" $@
 
-$(NAME): $(LIBFT) $(OBJS)
-	@cc $(FLAGS) -o $(NAME) -I /usr/local/include $(SRCS) $(LIBFT) -L /usr/local/lib -lmlx -framework openGL -framework AppKit
+$(OBJ_DIR):
+	@mkdir obj
+	@printf "$(C_MAGENTA)FDF:$(C_NONE) %-25s$(C_GREEN)[done]$(C_NONE)\n" $@
 
-%.o: %.c $(HEADER)
-	gcc -c $< -o $@ $(FLAGS)
-
-$(LIBFT):
-	make -C ./libft
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
+	@$(CC) $(CFLAGS) -c $(INC) $< -o $@
+	@printf "$(C_MAGENTA)FDF:$(C_NONE) %-25s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 clean:
-	@/bin/rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)*
+	@make fclean -C $(LIB_DIR)
+	@printf "$(C_MAGENTA)FDF:$(C_NONE) %-25s$(C_RED)[done]$(C_NONE)\n" $@
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	@rm -rf $(NAME)
+	@make fclean -C $(LIB_DIR)
+	@printf "$(C_MAGENTA)FDF:$(C_NONE) %-25s$(C_RED)[done]$(C_NONE)\n" $@
 
-re:	fclean all
+re: fclean all
+
+norm:
+	@norminette $(SRC) $(HEADERS)
