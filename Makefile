@@ -6,7 +6,7 @@
 #    By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/19 15:35:14 by mhonchar          #+#    #+#              #
-#    Updated: 2019/02/19 18:32:51 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/02/25 20:55:45 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,20 @@ LIB_DIR = libft/
 
 LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 
-SRC_FILES =		main.c
+SRC_FILES =		main.c \
+				get_next_line.c \
+				file_handler.c \
+				draw_line.c \
+				draw_net.c \
+				key_handler.c 
+				
+
 
 
 HEADERS = $(INC_DIR)fdf.h $(LIB_DIR)libft.h
+
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
-OBJ = $(addprefix $(SRC_DIR), $(SRC_FILES:.c=.o))
+OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
