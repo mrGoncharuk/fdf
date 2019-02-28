@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:27:08 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/02/25 21:07:57 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/01 01:26:54 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int		deal_key(int key, t_win *win)
 {
-	if (key >= K_LEFT_ARROW && key <= K_UP_ARROW)
+	printf("Key [%d] pressed\n", key);
+	if (key >= K_LEFT_ARROW && key <= K_DOWN_ARROW)
 		ft_move_img(key, win);
 	if (key == K_NUM_MINUS || key == K_NUM_PLUS)
 		ft_scale_img(key, win);
+	if (key >= K_NUM_4 && key <= K_NUM_2)
+		ft_rot_img(key, win);
 	if (key == K_NUM_ZERO)
 		ft_set_default_position(win);
 	ft_rewrite_img(win);	
@@ -33,8 +36,11 @@ void	ft_win_init(t_win *win)
 	win->size_line = WIDTH;
 	win->endian = 0;
 	win->scale = 20;
-	win->fig_pos.x = WIDTH / 2;		// - fig width * 2
+	win->fig_pos.x = WIDTH / 2;
 	win->fig_pos.y = HEIGHT / 2;
+	win->grads.x = -30;
+	win->grads.y = -30;
+	printf("[%d, %d]\n", win->fig_pos.x, win->fig_pos.y);
 	win->pix_ptr = mlx_get_data_addr(win->img_ptr, &(win->bpp), &(win->size_line), &(win->endian));
 
 	//ft_set_default_position(win);
@@ -63,4 +69,5 @@ int		main(int argc, char **argv)
 	mlx_loop(win.mlx_ptr);
 	//system("leaks fdf");
 	return (0);
+
 }
