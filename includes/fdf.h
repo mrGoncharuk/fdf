@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:28:03 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/01 01:12:51 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:29:32 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@
 # define K_NUM_4 65430
 # define K_NUM_8 65431
 # define K_NUM_6 65432
+# define K_NUM_7 65429
+# define K_NUM_9 65434
 
 # define WIDTH 500
 # define HEIGHT 500
 # define MOVE_POWER 10
 # define ROT_POWER 10
 
-
-
+# define PI 3.14159265358979323846
+# define DEG_TO_RAD(angle) (PI * angle) / 180
 typedef struct	s_vector3
 {
 	int			x;
@@ -48,15 +50,17 @@ typedef struct	s_vector3
 
 typedef struct	s_rotation
 {
-	double		x;
-	double		y;
-	double		z;
+	double		cosx;
+	double		sinx;
+	double		cosy;
+	double		siny;
+	double		cosz;
+	double		sinz;
 }				t_rotation;
 
 typedef struct	s_matrix
 {
 	t_vector3	**m;
-	t_rotation	radians;
 	int			rows;
 	int			cols;
 }				t_matrix;
@@ -76,6 +80,7 @@ typedef struct	s_win
 	t_vector3	grads;
 	t_vector3	fig_pos;
 	t_vector3	fig_centre;
+	t_rotation	rads;
 }				t_win;
 
 int		ft_get_map(t_win *win, char *fname);

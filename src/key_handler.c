@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 19:31:04 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/01 01:09:29 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:29:11 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,9 @@ void	ft_move_img(int key, t_win *win)
 void	ft_scale_img(int key, t_win *win)
 {
 	if (key == K_NUM_PLUS)
-	{
 		win->scale++;
-	}
 	else if (key == K_NUM_MINUS && win->scale > 0)
-	{
 		win->scale--;
-	}
 }
 
 void	ft_rot_img(int key, t_win *win)
@@ -47,10 +43,18 @@ void	ft_rot_img(int key, t_win *win)
 		win->grads.y += ROT_POWER;
 	else if (key == K_NUM_6)
 		win->grads.y -= ROT_POWER;
-	
+	else if (key == K_NUM_7)
+		win->grads.z += ROT_POWER;
+	else if (key == K_NUM_9)
+		win->grads.z -= ROT_POWER;
 }
 
 void	ft_set_default_position(t_win *win)
 {
-	win->endian = 0;
+	win->fig_pos.x = WIDTH / 2;
+	win->fig_pos.y = HEIGHT / 2;
+	win->grads.x = -30;
+	win->grads.y = -30;
+	win->grads.z = 0;
+	win->scale = 20;
 }
