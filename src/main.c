@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:27:08 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/01 17:30:25 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:38:07 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ int		deal_key(int key, t_win *win)
 		ft_scale_img(key, win);
 	if (key >= K_NUM_7 && key <= K_NUM_9)
 		ft_rot_img(key, win);
-	if (key == K_NUM_ZERO)
+	if (key == K_NUM_1 || key == K_NUM_3)
+		ft_scale_z(key, win);
+	if (key == K_NUM_0)
 		ft_set_default_position(win);
+	if (key == K_ESC)
+		exit(0);
 	ft_rewrite_img(win);	
 	return (0);
 }

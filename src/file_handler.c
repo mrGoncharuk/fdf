@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 17:55:24 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/02/25 19:57:55 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:38:35 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,40 @@ void	ft_del(char **arr)
 	}
 	free(arr[i]);
 	free(arr);
+}
+
+int		ft_hex_to_dec(char *hex)
+{
+	int		hex_len;
+	int		nb;
+	int		i;
+	char	c;
+
+	hex_len = ft_strlen(hex);
+	nb = 0;
+	i = 0;
+	while (i < hex_len)
+	{
+		c = hex[i];
+		if (ft_isdigit(hex[i]))
+			c -= '0';
+		else if ((c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))
+			c = ft_toupper(c) - 'A' + 10;
+		nb += c * ft_pow(16, ((hex_len - i) - 1));
+		i++;
+	}
+	return (nb);
+}
+
+int		ft_get_color(char *data)
+{
+	char	*inf;
+
+	inf = ft_strstr(data, ",0x");
+	if (!inf)
+		return (C_WHITE);
+	return (ft_hex_to_dec(inf + 3));
+	
 }
 
 int		ft_2darr_len(char **arr)
@@ -73,7 +107,7 @@ int		ft_init_struct(t_matrix *mtrx, t_list *f)
 			mtrx->m[i][j].x = j;
 			mtrx->m[i][j].y = i;
 			mtrx->m[i][j].z = ft_atoi(data[j]);
-			mtrx->m[i][j].color = 0xFFFFFF;
+			mtrx->m[i][j].color = ft_get_color(data[j]);
 			j++;
 		}
 		f = f->next;
@@ -89,7 +123,7 @@ int		ft_list_init(t_list **f, t_win *win, char *fname)
 	t_list	*next;
 	char	**data;
 
-	if ((fd = open(fname, O_RDONLY)) < 0)
+	if (!(fd = open(fname, O_RDONLY)) || fd < 0)
 		return (-1);
 	(*f) = ft_lstnew(NULL, 0);
 	next = (*f);

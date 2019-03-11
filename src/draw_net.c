@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 18:36:14 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/01 17:25:39 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/06 20:52:29 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,20 @@ void	ft_rewrite_img(t_win *win)	//scale, rotate, move
 	ft_bzero(win->pix_ptr, WIDTH * HEIGHT * sizeof(int));
 	ft_count_rads(&(win->grads), &(win->rads));
 	i = -1;
-	win->fig_centre.x = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].x * win->scale;
-	win->fig_centre.y = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].y * win->scale;
-	win->fig_centre.z = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].z * win->scale;
+	win->fig_centre.x = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].x * win->scale.x;
+	win->fig_centre.y = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].y * win->scale.y;
+	win->fig_centre.z = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].z * win->scale.z;
 	while (++i < win->mtrx.rows)
 	{
 		j = -1;
 		while (++j < win->mtrx.cols)
 		{
-			win->draw_mtrx.m[i][j].x = win->mtrx.m[i][j].x * (win->scale);
-			win->draw_mtrx.m[i][j].y = win->mtrx.m[i][j].y * (win->scale);
-			win->draw_mtrx.m[i][j].z = win->mtrx.m[i][j].z * (win->scale);
+			win->draw_mtrx.m[i][j].x = win->mtrx.m[i][j].x * (win->scale.x);
+			win->draw_mtrx.m[i][j].y = win->mtrx.m[i][j].y * (win->scale.y);
+			win->draw_mtrx.m[i][j].z = win->mtrx.m[i][j].z * (win->scale.z);
 			ft_rotate(&(win->draw_mtrx.m[i][j]), &(win->rads), &(win->fig_centre));
-			win->draw_mtrx.m[i][j].x += (win->fig_pos.x - (win->mtrx.cols - 1) * win->scale / 2);
-			win->draw_mtrx.m[i][j].y += (win->fig_pos.y - (win->mtrx.rows - 1) * win->scale / 2);
+			win->draw_mtrx.m[i][j].x += (win->fig_pos.x - (win->mtrx.cols - 1) * win->scale.x / 2);
+			win->draw_mtrx.m[i][j].y += (win->fig_pos.y - (win->mtrx.rows - 1) * win->scale.y / 2);
 			win->draw_mtrx.m[i][j].color = win->mtrx.m[i][j].color;
 		}
 	}

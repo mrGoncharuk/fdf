@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 19:31:04 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/01 17:29:11 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/11 18:04:33 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,17 @@ void	ft_move_img(int key, t_win *win)
 void	ft_scale_img(int key, t_win *win)
 {
 	if (key == K_NUM_PLUS)
-		win->scale++;
-	else if (key == K_NUM_MINUS && win->scale > 0)
-		win->scale--;
+	{
+		win->scale.x++;
+		win->scale.y++;
+		win->scale.z++;
+	}
+	else if (key == K_NUM_MINUS)
+	{
+		win->scale.x--;
+		win->scale.y--;
+		win->scale.z--;
+	}
 }
 
 void	ft_rot_img(int key, t_win *win)
@@ -53,8 +61,18 @@ void	ft_set_default_position(t_win *win)
 {
 	win->fig_pos.x = WIDTH / 2;
 	win->fig_pos.y = HEIGHT / 2;
-	win->grads.x = -30;
-	win->grads.y = -30;
-	win->grads.z = 0;
-	win->scale = 20;
+	win->grads.x = 30;
+	win->grads.y = 30;
+	win->grads.z = 30;
+	win->scale.x = 20;
+	win->scale.y = 20;
+	win->scale.z = 20;
+}
+
+void	ft_scale_z(int key, t_win *win)
+{
+	if (key == K_NUM_1)
+		win->scale.z--;
+	else if (key == K_NUM_3)
+		win->scale.z++;
 }

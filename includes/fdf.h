@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:28:03 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/01 17:29:32 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:37:43 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,31 @@
 # include "get_next_line.h"
 
 # define K_LEFT_ARROW 65361
-# define K_RIGTH_ARROW 65363
 # define K_UP_ARROW 65362
+# define K_RIGTH_ARROW 65363
 # define K_DOWN_ARROW 65364
 # define K_NUM_PLUS 65451
 # define K_NUM_MINUS 65453
-# define K_NUM_ZERO 65438
-# define K_NUM_2 65433
+# define K_NUM_0 65438
+
+# define K_NUM_7 65429
 # define K_NUM_4 65430
 # define K_NUM_8 65431
 # define K_NUM_6 65432
-# define K_NUM_7 65429
+# define K_NUM_2 65433
 # define K_NUM_9 65434
+
+# define K_NUM_3 65435
+# define K_NUM_1 65436
+
+# define K_ESC 65307
 
 # define WIDTH 500
 # define HEIGHT 500
 # define MOVE_POWER 10
 # define ROT_POWER 10
 
+# define C_WHITE 0xFF00FF
 # define PI 3.14159265358979323846
 # define DEG_TO_RAD(angle) (PI * angle) / 180
 typedef struct	s_vector3
@@ -74,7 +81,7 @@ typedef struct	s_win
 	int			bpp;
 	int			size_line;
 	int			endian;
-	int			scale;
+	t_vector3	scale;
 	t_matrix	mtrx;
 	t_matrix	draw_mtrx;
 	t_vector3	grads;
@@ -89,6 +96,7 @@ void	ft_rewrite_img(t_win *win);
 void	ft_draw_net(t_matrix *m, char *pixels);
 void	ft_move_img(int key, t_win *win);
 void    ft_scale_img(int key, t_win *win);
+void	ft_scale_z(int key, t_win *win);
 void	ft_rot_img(int key, t_win *win);
 void    ft_set_default_position(t_win *win);
 void	ft_rewrite_img(t_win *win);
