@@ -6,13 +6,13 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 17:55:24 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/02/25 19:57:55 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/13 17:36:35 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_del(char **arr)
+static void		ft_del(char **arr)
 {
 	int		i;
 
@@ -26,19 +26,7 @@ void	ft_del(char **arr)
 	free(arr);
 }
 
-int		ft_2darr_len(char **arr)
-{
-	int		i;
-
-	if (arr == NULL)
-		return (-1);
-	i = 0;
-	while (*(arr + i))
-		i++;
-	return (i);
-}
-
-int		ft_mtrxalloc(t_matrix *m)
+int				ft_mtrxalloc(t_matrix *m)
 {
 	int		i;
 
@@ -55,7 +43,7 @@ int		ft_mtrxalloc(t_matrix *m)
 	return (0);
 }
 
-int		ft_init_struct(t_matrix *mtrx, t_list *f)
+int				ft_init_struct(t_matrix *mtrx, t_list *f)
 {
 	int		i;
 	int		j;
@@ -73,7 +61,7 @@ int		ft_init_struct(t_matrix *mtrx, t_list *f)
 			mtrx->m[i][j].x = j;
 			mtrx->m[i][j].y = i;
 			mtrx->m[i][j].z = ft_atoi(data[j]);
-			mtrx->m[i][j].color = 0xFFFFFF;
+			mtrx->m[i][j].color = ft_get_color(data[j]);
 			j++;
 		}
 		f = f->next;
@@ -83,13 +71,13 @@ int		ft_init_struct(t_matrix *mtrx, t_list *f)
 	return (0);
 }
 
-int		ft_list_init(t_list **f, t_win *win, char *fname)
+int				ft_list_init(t_list **f, t_win *win, char *fname)
 {
 	int		fd;
 	t_list	*next;
 	char	**data;
 
-	if ((fd = open(fname, O_RDONLY)) < 0)
+	if (!(fd = open(fname, O_RDONLY)) || fd < 0)
 		return (-1);
 	(*f) = ft_lstnew(NULL, 0);
 	next = (*f);
@@ -112,7 +100,7 @@ int		ft_list_init(t_list **f, t_win *win, char *fname)
 	return (0);
 }
 
-int		ft_get_map(t_win *win, char *fname)
+int				ft_get_map(t_win *win, char *fname)
 {
 	t_list	*f;
 	t_list	*next;

@@ -6,7 +6,7 @@
 #    By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/19 15:35:14 by mhonchar          #+#    #+#              #
-#    Updated: 2019/02/25 20:55:45 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/03/13 19:24:35 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,13 @@ LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 SRC_FILES =		main.c \
 				get_next_line.c \
 				file_handler.c \
+				file_handler_utils.c \
 				draw_line.c \
 				draw_net.c \
-				key_handler.c 
+				rotation.c \
+				key_handler.c \
+				linear_gradient.c 
 				
-
-
 
 HEADERS = $(INC_DIR)fdf.h $(LIB_DIR)libft.h
 

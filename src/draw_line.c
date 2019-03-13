@@ -6,28 +6,25 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 18:00:18 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/02/25 17:23:23 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/13 20:59:34 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_put_pixel_to_img(char *pixels, int x, int y, int color)
+void		ft_pp_img(char *pixels, int x, int y, int color)
 {
-	//printf("[%d, %d, %d],[%d, %d, %d]\n", p0.x, p0.y, p0.z, p1.x, p1.y, p1.z);
 	if ((x >= 0 && x < WIDTH) && (y >= 0 && y < HEIGHT))
 		*(int *)(pixels + (WIDTH * y + x) * 4) = color;
 }
 
-void	ft_draw_low_line(char *pixels, t_vector3 p0, t_vector3 p1)
+void		ft_draw_low_line(t_win *win, t_vector3 p0, t_vector3 p1,
+			t_vector3 deltap)
 {
-	t_vector3		deltap;
 	t_vector3		p;
-	int			d;
-	int			yi;
+	int				d;
+	int				yi;
 
-	deltap.x = p1.x - p0.x;
-	deltap.y = p1.y - p0.y;
 	yi = 1;
 	if (deltap.y < 0)
 	{
@@ -39,7 +36,8 @@ void	ft_draw_low_line(char *pixels, t_vector3 p0, t_vector3 p1)
 	p.x = p0.x;
 	while (p.x <= p1.x)
 	{
-		ft_put_pixel_to_img(pixels, p.x, p.y, p0.color);
+		(win->gradient == 0) ? ft_pp_img(win->pix_ptr, p.x, p.y, p0.color) :
+			ft_put_gradient_pixel(p, p0, p1, win);
 		if (d > 0)
 		{
 			p.y += yi;
@@ -50,16 +48,13 @@ void	ft_draw_low_line(char *pixels, t_vector3 p0, t_vector3 p1)
 	}
 }
 
-void	ft_draw_high_line(char *pixels, t_vector3 p0, t_vector3 p1)
+void		ft_draw_high_line(t_win *win, t_vector3 p0, t_vector3 p1,
+			t_vector3 deltap)
 {
-	t_vector3		deltap;
 	t_vector3		p;
-	int			d;
-	int			xi;
+	int				d;
+	int				xi;
 
-	
-	deltap.x = p1.x - p0.x;
-	deltap.y = p1.y - p0.y;
 	xi = 1;
 	if (deltap.x < 0)
 	{
@@ -71,9 +66,8 @@ void	ft_draw_high_line(char *pixels, t_vector3 p0, t_vector3 p1)
 	p.x = p0.x;
 	while (p.y <= p1.y)
 	{
-		
-		ft_put_pixel_to_img(pixels, p.x, p.y, p0.color);
-		
+		(win->gradient == 0) ? ft_pp_img(win->pix_ptr, p.x, p.y, p0.color) :
+			ft_put_gradient_pixel(p, p0, p1, win);
 		if (d > 0)
 		{
 			p.x = p.x + xi;
@@ -84,21 +78,29 @@ void	ft_draw_high_line(char *pixels, t_vector3 p0, t_vector3 p1)
 	}
 }
 
-void	ft_draw_line_img(char *pixels, t_vector3 p0, t_vector3 p1)
+t_vector3	ft_calc_delta(t_vector3 p0, t_vector3 p1)
 {
-	//printf("[%d, %d, %d],[%d, %d, %d]\n", p0.x, p0.y, p0.z, p1.x, p1.y, p1.z);
+	t_vector3	deltap;
+
+	deltap.x = p1.x - p0.x;
+	deltap.y = p1.y - p0.y;
+	return (deltap);
+}
+
+void		ft_draw_line_img(t_win *win, t_vector3 p0, t_vector3 p1)
+{
 	if (abs(p1.y - p0.y) < abs(p1.x - p0.x))
 	{
 		if (p0.x > p1.x)
-			ft_draw_low_line(pixels, p1, p0);
+			ft_draw_low_line(win, p1, p0, ft_calc_delta(p1, p0));
 		else
-			ft_draw_low_line(pixels, p0, p1);
+			ft_draw_low_line(win, p0, p1, ft_calc_delta(p0, p1));
 	}
 	else
 	{
 		if (p0.y > p1.y)
-			ft_draw_high_line(pixels, p1, p0);
+			ft_draw_high_line(win, p1, p0, ft_calc_delta(p1, p0));
 		else
-			ft_draw_high_line(pixels, p0, p1);
+			ft_draw_high_line(win, p0, p1, ft_calc_delta(p0, p1));
 	}
 }
