@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:27:08 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 21:13:11 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:02:03 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int		deal_key(int key, t_win *win)
 		win->gradient = !(win->gradient);
 	if (key == K_L)
 		win->visible_lines = !(win->visible_lines);
+	if (key == K_I)
+		(win->projection == P_ISO) ? (win->projection = P_PAR) :
+			(win->projection = P_ISO);
 	ft_rewrite_img(win);
 	return (0);
 }
@@ -58,16 +61,25 @@ void	ft_win_init(t_win *win)
 int		main(int argc, char **argv)
 {
 	t_win	win;
+	int		err_code;
 
 	if (argc != 2)
 	{
 		ft_putendl("Usage: ./fdf [map_name]");
-		return (-1);
-	}
-	if (ft_get_map(&win, argv[1]) < 0)
-	{
-		ft_putendl("Error while file reading.");
 		return (0);
+	}
+	if ((err_code = ft_get_map(&win, argv[1])) < 0)
+	{
+		if (err_code == E_NOFILE)
+		{
+			ft_putstr("Error. Can't find file");
+			ft_putendl(argv[1]);
+		}
+		else if (err_code == E_NOMEMORY)
+			ft_putendl("Error. Not enough memory.");
+		else if (err_code == E_BADMAP)
+			ft_putendl("Error. Bad map.");
+		return (-1);
 	}
 	ft_win_init(&win);
 	mlx_key_hook(win.win_ptr, deal_key, (void *)&win);

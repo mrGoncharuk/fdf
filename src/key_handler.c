@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 19:31:04 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 18:28:51 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:48:42 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,12 @@ void	ft_set_default_position(t_win *win)
 	win->fig_pos.x = WIDTH / 2;
 	win->fig_pos.y = HEIGHT / 2;
 	win->grads.x = -30;
-	win->grads.y = -30;
-	win->grads.z = 30;
+	win->grads.y = 30;
+	win->grads.z = -30;
 	win->scale.x = 20;
 	win->scale.y = 20;
 	win->scale.z = 20;
+	win->projection = 0;
 }
 
 void	ft_scale_z(int key, t_win *win)

@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:34:22 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 17:37:42 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:34:12 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,22 @@ int		ft_hex_to_dec(char *hex)
 	return (nb);
 }
 
-int		ft_get_color(char *data)
+int		ft_get_color(char *data, int z)
 {
 	char	*inf;
 
 	inf = ft_strstr(data, ",0x");
 	if (!inf)
-		return (C_WHITE);
+	{
+		if (z <= -5)
+			return (C_BLUE);
+		if (z <= 0)
+			return (C_GREEN);
+		if (z <= 5)
+			return (C_YELLOW);
+		if (z > 5)
+			return (C_RED);
+	}
 	return (ft_hex_to_dec(inf + 3));
 }
 

@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 20:14:55 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 17:25:04 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:57:23 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	ft_count_rads(t_vector3 *grads, t_rotation *rads)
 	rads->siny = sin(rad_y);
 	rads->cosz = cos(rad_z);
 	rads->sinz = sin(rad_z);
+}
+
+void	ft_calc_image_mid(t_win *win)
+{
+	win->fig_centre.x = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].x
+		* win->scale.x;
+	win->fig_centre.y = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].y
+		* win->scale.y;
+	win->fig_centre.z = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].z
+		* win->scale.z;
 }
 
 void	ft_rotate(t_vector3 *p, t_rotation *rads, t_vector3 *centre)
@@ -53,4 +63,15 @@ void	ft_rotate(t_vector3 *p, t_rotation *rads, t_vector3 *centre)
 			(prev_y - centre->y) * rads->sinz;
 	p->y = centre->y + (prev_y - centre->y) * rads->cosz -
 			(prev_x - centre->x) * rads->sinz;
+}
+
+void	iso(t_vector3 *p)
+{
+	int		previous_x;
+	int		previous_y;
+
+	previous_x = p->x;
+	previous_y = p->y;
+	p->x = (previous_x - previous_y) * cos(0.523599);
+	p->y = -p->z + (previous_x + previous_y) * sin(0.523599);
 }

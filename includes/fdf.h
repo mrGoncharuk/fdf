@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:28:03 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 21:18:03 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:02:19 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include <math.h>
 # include "libft.h"
 # include "get_next_line.h"
+
+# define E_NOFILE -1
+# define E_NOMEMORY -2
+# define E_BADMAP -3
 
 # define K_LEFT_ARROW 123
 # define K_RIGTH_ARROW 124
@@ -40,11 +44,18 @@
 # define K_H 4
 # define K_G 5
 # define K_L 37
+# define K_I 34
 # define WIDTH 1600
 # define HEIGHT 900
 # define MOVE_POWER 10
 # define ROT_POWER 10
 
+# define P_PAR 0
+# define P_ISO 1
+
+# define C_RED 0xFF0000
+# define C_GREEN 0x00FF00
+# define C_BLUE 0x0000FF
 # define C_WHITE 0xFFFFFF
 # define C_YELLOW 0xD8CE0F
 # define PI 3.14159265358979323846
@@ -87,6 +98,7 @@ typedef struct	s_win
 	int			help;
 	int			gradient;
 	int			visible_lines;
+	int			projection;
 	t_vector3	scale;
 	t_matrix	mtrx;
 	t_matrix	draw_mtrx;
@@ -98,7 +110,7 @@ typedef struct	s_win
 
 int				ft_get_map(t_win *win, char *fname);
 int				ft_hex_to_dec(char *hex);
-int				ft_get_color(char *data);
+int				ft_get_color(char *data, int z);
 int				ft_2darr_len(char **arr);
 void			ft_draw_line_img(t_win *win, t_vector3 p0, t_vector3 p1);
 void			ft_rewrite_img(t_win *win);
@@ -111,8 +123,11 @@ void			ft_set_default_position(t_win *win);
 void			ft_rewrite_img(t_win *win);
 void			ft_pp_img(char *pixels, int x, int y, int color);
 void			ft_count_rads(t_vector3 *grads, t_rotation *rads);
+void			ft_calc_image_mid(t_win *win);
 void			ft_rotate(t_vector3 *p, t_rotation *rads, t_vector3 *centre);
 void			ft_put_gradient_pixel(t_vector3 p, t_vector3 start,
 					t_vector3 end, t_win *win);
+
+void			iso(t_vector3 *p);
 
 #endif

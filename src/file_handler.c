@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 17:55:24 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 17:36:35 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:28:44 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				ft_init_struct(t_matrix *mtrx, t_list *f)
 			mtrx->m[i][j].x = j;
 			mtrx->m[i][j].y = i;
 			mtrx->m[i][j].z = ft_atoi(data[j]);
-			mtrx->m[i][j].color = ft_get_color(data[j]);
+			mtrx->m[i][j].color = ft_get_color(data[j], mtrx->m[i][j].z);
 			j++;
 		}
 		f = f->next;
@@ -77,7 +77,7 @@ int				ft_list_init(t_list **f, t_win *win, char *fname)
 	t_list	*next;
 	char	**data;
 
-	if (!(fd = open(fname, O_RDONLY)) || fd < 0)
+	if (!(fd = open(fname, O_RDONLY)) || fd < 0 || (read(fd, NULL, 0) == -1))
 		return (-1);
 	(*f) = ft_lstnew(NULL, 0);
 	next = (*f);
@@ -105,9 +105,12 @@ int				ft_get_map(t_win *win, char *fname)
 	t_list	*f;
 	t_list	*next;
 
-	ft_list_init(&f, win, fname);
-	ft_mtrxalloc(&(win->mtrx));
-	ft_init_struct(&(win->mtrx), f);
+	if (ft_list_init(&f, win, fname) == -1)
+		return (E_NOFILE);
+	if (ft_mtrxalloc(&(win->mtrx)) == -1)
+		return (E_NOMEMORY);
+	if (ft_init_struct(&(win->mtrx), f) == -1)
+		return (E_BADMAP);
 	while (f)
 	{
 		next = f->next;
@@ -117,6 +120,7 @@ int				ft_get_map(t_win *win, char *fname)
 	}
 	win->draw_mtrx.cols = win->mtrx.cols;
 	win->draw_mtrx.rows = win->mtrx.rows;
-	ft_mtrxalloc(&(win->draw_mtrx));
+	if (ft_mtrxalloc(&(win->draw_mtrx)) == -1)
+		return (E_NOMEMORY);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 18:36:14 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/13 21:18:54 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 16:53:17 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	ft_put_help(t_win *win)
 		mlx_string_put(win->mlx_ptr, win->win_ptr, 50, 130, C_YELLOW,
 			"Enable/Disable line drawing: L");
 		mlx_string_put(win->mlx_ptr, win->win_ptr, 50, 145, C_YELLOW,
+			"Enable/Disable Isometric projection: I");
+		mlx_string_put(win->mlx_ptr, win->win_ptr, 50, 160, C_YELLOW,
 			"Exit: Esc");
 	}
 }
@@ -51,8 +53,11 @@ void	ft_point_transformation(t_win *win)
 			win->draw_mtrx.m[i][j].x = win->mtrx.m[i][j].x * (win->scale.x);
 			win->draw_mtrx.m[i][j].y = win->mtrx.m[i][j].y * (win->scale.y);
 			win->draw_mtrx.m[i][j].z = win->mtrx.m[i][j].z * (win->scale.z);
-			ft_rotate(&(win->draw_mtrx.m[i][j]), &(win->rads),
-				&(win->fig_centre));
+			if (win->projection == P_ISO)
+				iso(&(win->draw_mtrx.m[i][j]));
+			else
+				ft_rotate(&(win->draw_mtrx.m[i][j]), &(win->rads),
+					&(win->fig_centre));
 			win->draw_mtrx.m[i][j].x += (win->fig_pos.x -
 				(win->mtrx.cols - 1) * win->scale.x / 2);
 			win->draw_mtrx.m[i][j].y += (win->fig_pos.y -
@@ -60,16 +65,6 @@ void	ft_point_transformation(t_win *win)
 			win->draw_mtrx.m[i][j].color = win->mtrx.m[i][j].color;
 		}
 	}
-}
-
-void	ft_calc_image_mid(t_win *win)
-{
-	win->fig_centre.x = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].x
-		* win->scale.x;
-	win->fig_centre.y = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].y
-		* win->scale.y;
-	win->fig_centre.z = win->mtrx.m[win->mtrx.rows / 2][win->mtrx.cols / 2].z
-		* win->scale.z;
 }
 
 void	ft_put_points(t_win *win)
@@ -84,7 +79,8 @@ void	ft_put_points(t_win *win)
 	{
 		j = -1;
 		while (++j < m->cols - 1)
-			ft_pp_img(win->pix_ptr, m->m[i][j].x, m->m[i][j].y, m->m[i][j].color);
+			ft_pp_img(win->pix_ptr, m->m[i][j].x, m->m[i][j].y,
+				m->m[i][j].color);
 	}
 }
 
