@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:28:03 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/14 17:02:19 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 19:06:07 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define E_NOFILE -1
 # define E_NOMEMORY -2
 # define E_BADMAP -3
+# define E_EMPTY_FILE -4
 
 # define K_LEFT_ARROW 123
 # define K_RIGTH_ARROW 124
@@ -112,6 +113,8 @@ int				ft_get_map(t_win *win, char *fname);
 int				ft_hex_to_dec(char *hex);
 int				ft_get_color(char *data, int z);
 int				ft_2darr_len(char **arr);
+void			ft_del_2darr(char **arr);
+void			ft_del_list(t_list **lst);
 void			ft_draw_line_img(t_win *win, t_vector3 p0, t_vector3 p1);
 void			ft_rewrite_img(t_win *win);
 void			ft_draw_net(t_win *win);
@@ -127,7 +130,6 @@ void			ft_calc_image_mid(t_win *win);
 void			ft_rotate(t_vector3 *p, t_rotation *rads, t_vector3 *centre);
 void			ft_put_gradient_pixel(t_vector3 p, t_vector3 start,
 					t_vector3 end, t_win *win);
-
-void			iso(t_vector3 *p);
+void			iso(t_vector3 *p, t_vector3 *centre);
 
 #endif

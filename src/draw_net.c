@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 18:36:14 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/14 16:53:17 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:55:14 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_point_transformation(t_win *win)
 			win->draw_mtrx.m[i][j].y = win->mtrx.m[i][j].y * (win->scale.y);
 			win->draw_mtrx.m[i][j].z = win->mtrx.m[i][j].z * (win->scale.z);
 			if (win->projection == P_ISO)
-				iso(&(win->draw_mtrx.m[i][j]));
+				iso(&(win->draw_mtrx.m[i][j]), &(win->fig_centre));
 			else
 				ft_rotate(&(win->draw_mtrx.m[i][j]), &(win->rads),
 					&(win->fig_centre));

@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 18:27:08 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/14 17:02:03 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:52:06 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,9 @@ int		main(int argc, char **argv)
 	if ((err_code = ft_get_map(&win, argv[1])) < 0)
 	{
 		if (err_code == E_NOFILE)
-		{
-			ft_putstr("Error. Can't find file");
-			ft_putendl(argv[1]);
-		}
+			ft_putendl("Error. Can't find file.");
+		else if (err_code == E_EMPTY_FILE)
+			ft_putendl("Error. Empty file.");
 		else if (err_code == E_NOMEMORY)
 			ft_putendl("Error. Not enough memory.");
 		else if (err_code == E_BADMAP)

@@ -6,7 +6,7 @@
 /*   By: mhonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 20:14:55 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/03/14 16:57:23 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:54:28 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ void	ft_rotate(t_vector3 *p, t_rotation *rads, t_vector3 *centre)
 			(prev_x - centre->x) * rads->sinz;
 }
 
-void	iso(t_vector3 *p)
+void	iso(t_vector3 *p, t_vector3 *centre)
 {
 	int		previous_x;
 	int		previous_y;
 
 	previous_x = p->x;
 	previous_y = p->y;
-	p->x = (previous_x - previous_y) * cos(0.523599);
-	p->y = -p->z + (previous_x + previous_y) * sin(0.523599);
+	p->x = centre->x + (previous_x - previous_y) * cos(0.523599);
+	p->y = centre->y + -p->z + (previous_x + previous_y) * sin(0.523599);
 }
